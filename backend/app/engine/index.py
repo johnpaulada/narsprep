@@ -1,12 +1,9 @@
 import logging
 import os
-from llama_index import (
-    StorageContext,
-    load_index_from_storage,
-)
 
 from app.engine.constants import STORAGE_DIR
 from app.engine.context import create_service_context
+from llama_index import StorageContext, load_index_from_storage
 
 
 def get_chat_engine():
@@ -22,4 +19,14 @@ def get_chat_engine():
     storage_context = StorageContext.from_defaults(persist_dir=STORAGE_DIR)
     index = load_index_from_storage(storage_context, service_context=service_context)
     logger.info(f"Finished loading index from {STORAGE_DIR}")
-    return index.as_chat_engine()
+    return index.as_chat_engine(
+        chat_mode="condense_plus_context",
+        context_prompt=(
+            "You are a chatbot, and your main job is to help me prep for my nursing exams.\n"
+            "Here are the relevant documents for the context:\n"
+            "{context_str}"
+            "\nInstruction: Use the previous chat history, or the context above, to interact and help the user."
+        ),
+        verbose=True,
+        debug=True,
+    )

@@ -12,6 +12,10 @@ uvicorn = { extras = ["standard"], version = "^0.23.2" }
 llama-index = "^0.9.19"
 pypdf = "^3.17.0"
 python-dotenv = "^1.0.0"
+transformers = "^4.36.2"
+torch = "^2.1.2"
+ebooklib = "^0.18"
+html2text = "^2020.1.16"
 
 
 [build-system]
